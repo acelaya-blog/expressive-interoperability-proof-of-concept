@@ -36,6 +36,11 @@ class HomePageHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
+        $showError = \array_key_exists('withError', $request->getQueryParams());
+        if ($showError) {
+            throw new \Exception('This is an exception');
+        }
+
         if (! $this->template) {
             return new JsonResponse([
                 'welcome' => 'Congratulations! You have installed the zend-expressive skeleton application.',
