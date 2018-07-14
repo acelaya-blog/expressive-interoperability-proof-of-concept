@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace AppTest\Handler;
 
 use App\Handler\PingHandler;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
 class PingHandlerTest extends TestCase
 {
@@ -20,7 +20,7 @@ class PingHandlerTest extends TestCase
 
         $json = json_decode((string) $response->getBody());
 
-        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertTrue(isset($json->ack));
     }
 }

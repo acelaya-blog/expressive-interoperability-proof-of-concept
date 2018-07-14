@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+
 return [
     // Provides application-wide services.
     // We recommend using fully-qualified class names whenever possible as
@@ -20,7 +27,21 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
-            // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
+            ServerRequestInterface::class => function () {
+                return function () {
+                    return ServerRequest::fromGlobals();
+                };
+            },
+            ResponseInterface::class => function () {
+                return function () {
+                    return new Response();
+                };
+            },
+            StreamInterface::class => function () {
+                return function () {
+                    return new Stream(\fopen('php://temp', 'wb+'));
+                };
+            },
         ],
     ],
 ];

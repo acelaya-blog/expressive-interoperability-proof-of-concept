@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Handler;
 
 use Acelaya\Expressive\Router\SlimRouter;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\JsonResponse;
 use Zend\Expressive\Plates\PlatesRenderer;
 use Zend\Expressive\Router;
 use Zend\Expressive\Template;
@@ -42,10 +41,10 @@ class HomePageHandler implements RequestHandlerInterface
         }
 
         if (! $this->template) {
-            return new JsonResponse([
+            return new Response(200, ['content-type' => 'application/json'], \json_encode([
                 'welcome' => 'Congratulations! You have installed the zend-expressive skeleton application.',
                 'docsUrl' => 'https://docs.zendframework.com/zend-expressive/',
-            ]);
+            ]));
         }
 
         $data = [];
@@ -98,6 +97,6 @@ class HomePageHandler implements RequestHandlerInterface
             $data['templateDocs'] = 'https://docs.zendframework.com/zend-view/';
         }
 
-        return new HtmlResponse($this->template->render('app::home-page', $data));
+        return new Response(200, [], $this->template->render('app::home-page', $data));
     }
 }
