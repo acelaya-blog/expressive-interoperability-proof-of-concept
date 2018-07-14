@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Handler;
 
+use Acelaya\Expressive\Router\SlimRouter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -76,6 +77,9 @@ class HomePageHandler implements RequestHandlerInterface
         } elseif ($this->router instanceof Router\ZendRouter) {
             $data['routerName'] = 'Zend Router';
             $data['routerDocs'] = 'https://docs.zendframework.com/zend-router/';
+        } elseif ($this->router instanceof SlimRouter) {
+            $data['routerName'] = 'Slim Router';
+            $data['routerDocs'] = 'https://github.com/acelaya/expressive-slim-router';
         }
 
         if ($this->template instanceof PlatesRenderer) {
